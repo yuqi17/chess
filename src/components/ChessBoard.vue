@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <div id="board" :class="{second:fisrtOp === -1}" ref='board' @click="move">
+    <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
-          <div :class="[{chessman:true, second:fisrtOp === -1},chessArr[index][row] > 0 ? 'white' : 'black']" v-if="index === 0 || index === 1 || index === 6 || index === 7">{{chessMan[Math.abs(chessArr[index][row])]}}</div>
+          <div :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']" v-if="index === 0 || index === 1 || index === 6 || index === 7">{{chessMan[Math.abs(chessArr[index][row])]}}</div>
         </div>
       </div>
     </div>
@@ -37,30 +37,48 @@ export default {
         [-1,-2,-3,-4,-5,-3,-2,-1]
       ],
       cellSize:60,
-      fisrtOp: -1,// 1 表示是先走的一方 棋子为正 -1 表示后走的一方棋子为负
+      role: 1,// 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负
       point:{
         x:-1,
         y:-1
       },
       cell:null,
       step:0,
-      turn:1// 表示 白走
+      turn:1// 1 表示 白走
     }
   },
   mounted(){
+    // 这一步应该是后台分配的
+    // this.role  = [1,-1][Math.round(Math.random())]
+
+    console.log('your:', this.role)
+    if(this.role === -1){
+      this.chessArr = [
+          [-6,-6,-6,-6,-6,-6,-6,-6],
+          [-1,-2,-3,-4,-5,-3,-2,-1],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0],
+          [1,2,3,4,5,3,2,1],
+          [6,6,6,6,6,6,6,6]
+      ]
+    }
+
   },
   methods:{
     move(e){
+      console.log(this.turn !== this.role)
+      if(this.turn !== this.role){// 不该你走
+        return;
+      }
+
       const left = this.$refs['board'].offsetLeft;
       const top = this.$refs['board'].offsetTop;
 
       const ix = Math.floor((e.clientX - left) / this.cellSize);
       const iy = Math.floor((e.clientY - top) / this.cellSize);
 
-      if(this.fisrtOp  * this.chessArr[iy][ix] < 0){// 第一步选的不是自己的子
-        return;
-      }
-      
       if(this.step === 0 && this.chessArr[iy][ix] === 0){// 没选中一个子
         return;
       }
@@ -71,13 +89,12 @@ export default {
         this.cell = e.target;
         this.point.x = ix;
         this.point.y = iy;
-        
         return;
       }
 
       this.step = 0; // 落子完毕
 
-      if(this.fisrtOp  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
+      if(this.turn  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
         return;
       }
       
@@ -86,7 +103,7 @@ export default {
       this.chessArr[this.point.y][this.point.x] = 0;
 
       // 视图更新
-      this.cell.style.transform += ` translate(${-(ix - this.point.x) * this.cellSize}px,${-(iy - this.point.y) * this.cellSize}px) rotate(-180deg) `
+      this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
     
       this.turn = - this.turn;
     }
@@ -114,10 +131,6 @@ export default {
   border: 0.2em solid tan;
   background-color: burlywood;
   box-shadow: 0 0.3em 2em 0.4em rgba(0, 0, 0, 0.3);
-}
-
-.second {
-  transform: rotate(180deg);
 }
 
 .cell {
