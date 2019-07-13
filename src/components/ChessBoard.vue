@@ -103,7 +103,9 @@ export default {
       this.chessArr[this.point.y][this.point.x] = 0;
 
       // 视图更新
-      this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
+      this.cell.style.left = (ix - this.point.x) * this.cellSize  + 'px'
+      this.cell.style.top = (iy - this.point.y) * this.cellSize + 'px'
+      // this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
     
       this.turn = - this.turn;
     }
