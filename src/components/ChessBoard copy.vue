@@ -111,10 +111,9 @@ export default {
       this.chessArr[this.point.y][this.point.x] = 0;
 
       // 视图更新
-      this.cell.style.left = `${(ix ) * this.cellSize}px`
-      this.cell.style.top = `${(iy) * this.cellSize}px`
-      console.log(this.cell.style.left,this.cell.style.top)
-      // this.turn = -this.turn;
+      this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
+    
+      this.turn = -this.turn;
     }
   }
 
@@ -136,6 +135,7 @@ export default {
   flex-wrap: wrap;
   width: 480px;
   height: 480px;
+
   border: 0.2em solid tan;
   background-color: burlywood;
   box-shadow: 0 0.3em 2em 0.4em rgba(0, 0, 0, 0.3);
@@ -144,14 +144,12 @@ export default {
 .cell {
   width: 60px;
   height: 60px;
-  display: flex;
-  justify-content: center;
 }
 
 .chessman{
-  position: absolute;
   font-size: 40px;
   transition: all .3s;
+  height: 100%;
 }
 
 .white{
