@@ -136,9 +136,12 @@ export default {
 .cell {
   width: 60px;
   height: 60px;
+  display: flex;
+  justify-content: center;
 }
 
 .chessman{
+  position: absolute;
   font-size: 40px;
   transition: all .3s;
   height: 100%;
