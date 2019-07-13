@@ -3,7 +3,7 @@
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
-          <div :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']" v-if="index === 0 || index === 1 || index === 6 || index === 7">{{chessMan[Math.abs(chessArr[index][row])]}}</div>
+          <div :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">{{chessMan[Math.abs(chessArr[index][row])]}}</div>
         </div>
       </div>
     </div>
@@ -37,21 +37,18 @@ export default {
         [-1,-2,-3,-4,-5,-3,-2,-1]
       ],
       cellSize:60,
-      role: 1,// 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负
       point:{
         x:-1,
         y:-1
       },
+      role: 1,// 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负 (后端分配)
       cell:null,
       step:0,
-      turn:1// 1 表示 白走
+      turn:1,// 1 表示 白走
+      kingRookTimes:1// 每方有一次王车易位的机会
     }
   },
   mounted(){
-    // 这一步应该是后台分配的
-    // this.role  = [1,-1][Math.round(Math.random())]
-
-    console.log('your:', this.role)
     if(this.role === -1){
       this.chessArr = [
           [-6,-6,-6,-6,-6,-6,-6,-6],
@@ -67,7 +64,9 @@ export default {
 
   },
   methods:{
-    move(e){
+
+    move(e){// 我方移动棋子
+
       // 这个判断在网络版再加上
       // if(this.turn !== this.role){// 不该你走
       //   return;
@@ -92,29 +91,96 @@ export default {
         return;
       }
 
-      console.log(this.chessMan[Math.abs(this.chessArr[this.point.y][this.point.x])])
-      // 不同棋子的落子规则
-
-
-      this.step = 0; // 落子完毕
+      this.step = 0; // 落子完毕,不管是否是有效落子
 
       // 这个判断也网络版再加上
       // if(this.role  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
       //   return;
       // }
-      
-      // 修改数组
-      // this.chessArr[iy][ix] = 0;
-      // this.$set(this.chessArr[iy],ix, 0)
 
+      // 有效落子的判断
+
+////////////////
+      const chessManType = this.chessMan[Math.abs(this.chessArr[this.point.y][this.point.x])];
+
+      if(chessManType === '♙'){
+        // 兵一次向前最多走2步
+        const { abs } = Math;
+        if(abs(iy - this.point.y) > 2){
+          return;
+        }
+      
+        // TODO 同一个兵一次只能走一次2步 需要一个精确记录 -+6+index:1
+
+        // 兵往左右两方偏移不超过一步
+        if(abs(ix - this.point.x) > 1){
+          return;
+        }
+
+        // 兵不能水平移动
+        if(this.point.y - iy === 0){
+          return;
+        }
+
+        // 兵不能退后 
+        if(iy - this.point.y > 0){
+          return;
+        }
+
+        // 兵进2步
+        if((iy - this.point.y) === 2){
+          // 中间有棋子挡住
+          if(this.chessArr[this.point.y - 1][this.point.x]  === 0){
+            return;
+          }
+        }
+        
+        // 前方斜走不可超过 sqrt(2)
+        const { pow, sqrt } = Math;
+        const distance = sqrt(pow(this.point.x - ix, 2) + pow(this.point.y - iy, 2))
+        if(ix - this.point.x != 0 && distance > sqrt(2)){
+          return;
+        } 
+
+        // 斜着走不可落在空格上
+        if(distance === sqrt(2) && this.chessArr[iy][ix] === 0){
+          return;
+        }
+
+
+      }
+      if(chessManType === '♖'){
+
+      }
+
+      if(chessManType === '♘'){
+
+      }
+
+      if(chessManType === '♗'){
+
+      }
+
+      if(chessManType === '♔'){
+
+      }
+
+      if(chessManType === '♕'){
+
+      }
+////////////////
+
+      // 修改数组
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
 
-      // 视图更新
-      this.cell.style.left = `${(ix ) * this.cellSize}px`
-      this.cell.style.top = `${(iy) * this.cellSize}px`
-      console.log(this.cell.style.left,this.cell.style.top)
-      // this.turn = -this.turn;
+      // 落子的格子里有对方棋子 消失掉这个棋子节点
+      e.target.style.display = 'none'
+
+      // 棋子移动动画
+      this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
+    
+      this.turn = -this.turn;
     }
   }
 
@@ -136,6 +202,7 @@ export default {
   flex-wrap: wrap;
   width: 480px;
   height: 480px;
+
   border: 0.2em solid tan;
   background-color: burlywood;
   box-shadow: 0 0.3em 2em 0.4em rgba(0, 0, 0, 0.3);
@@ -144,14 +211,12 @@ export default {
 .cell {
   width: 60px;
   height: 60px;
-  display: flex;
-  justify-content: center;
 }
 
 .chessman{
-  position: absolute;
   font-size: 40px;
   transition: all .3s;
+  height: 100%;
 }
 
 .white{
