@@ -14,18 +14,12 @@
 </template>
 
 <script>
+import chessMan from '../logic/chessman_config'
 
 export default {
   data(){
     return {
-      chessMan:{
-        1:'♖',
-        2:'♘',
-        3:'♗',
-        4:'♔',
-        5:'♕',
-        6:'♙'
-      },
+      chessMan,
       chessArr:[
         [1,2,3,4,5,3,2,1],
         [6,6,6,6,6,6,6,6],
@@ -101,7 +95,7 @@ export default {
       // 有效落子的判断
 
 ////////////////
-      const chessManType = this.chessMan[Math.abs(this.chessArr[this.point.y][this.point.x])];
+      const chessManType = chessMan[Math.abs(this.chessArr[this.point.y][this.point.x])];
 
       if(chessManType === '♙'){
         // 兵一次向前最多走2步
