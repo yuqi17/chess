@@ -68,10 +68,10 @@ export default {
   },
   methods:{
     move(e){
-      console.log(this.turn !== this.role)
-      if(this.turn !== this.role){// 不该你走
-        return;
-      }
+      // 这个判断在网络版再加上
+      // if(this.turn !== this.role){// 不该你走
+      //   return;
+      // }
 
       const left = this.$refs['board'].offsetLeft;
       const top = this.$refs['board'].offsetTop;
@@ -92,20 +92,28 @@ export default {
         return;
       }
 
+      console.log(this.chessMan[Math.abs(this.chessArr[this.point.y][this.point.x])])
+      // 不同棋子的落子规则
+
+
       this.step = 0; // 落子完毕
 
-      if(this.turn  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
-        return;
-      }
+      // 这个判断也网络版再加上
+      // if(this.role  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
+      //   return;
+      // }
       
       // 修改数组
+      // this.chessArr[iy][ix] = 0;
+      // this.$set(this.chessArr[iy],ix, 0)
+
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
 
       // 视图更新
       this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
     
-      this.turn = - this.turn;
+      this.turn = -this.turn;
     }
   }
 
