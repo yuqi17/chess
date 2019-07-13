@@ -9,12 +9,11 @@ export default {
     6: '♙'
   },
   canMove(chessArr, x0, y0, x1, y1) {
-    ////////////////
-    const chessManType = this.chessMan[Math.abs(chessArr[y0][x0])];
+    const { abs } = Math;
 
+    const chessManType = this.chessMan[abs(chessArr[y0][x0])];
     if (chessManType === '♙') {
       // 兵一次向前最多走2步
-      const { abs } = Math;
       if (abs(y1 - y0) > 2) {
         return false;
       }
@@ -92,18 +91,7 @@ export default {
     if (chessManType === '♕') {
 
     }
-    ////////////////
     return true;
   }
 
 }
-
-
-// export default {
-//   1:'♖',
-//   2:'♘',
-//   3:'♗',
-//   4:'♔',
-//   5:'♕',
-//   6:'♙'
-// }
