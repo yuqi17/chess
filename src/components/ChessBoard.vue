@@ -14,21 +14,21 @@
 </template>
 
 <script>
-import chessMan from '../logic/chessman_config'
+import logic from '../logic/index'
 
 export default {
   data(){
     return {
-      chessMan,
-      chessArr:[
-        [1,2,3,4,5,3,2,1],
-        [6,6,6,6,6,6,6,6],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0],
-        [-6,-6,-6,-6,-6,-6,-6,-6],
-        [-1,-2,-3,-4,-5,-3,-2,-1]
+      chessMan:logic.chessMan,
+      chessArr: [
+        [1, 2, 3, 4, 5, 3, 2, 1],
+        [6, 6, 6, 6, 6, 6, 6, 6],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [-6, -6, -6, -6, -6, -6, -6, -6],
+        [-1, -2, -3, -4, -5, -3, -2, -1]
       ],
       cellSize:60,
       point:{
@@ -93,92 +93,11 @@ export default {
       // }
 
       // 有效落子的判断
-
-////////////////
-      const chessManType = chessMan[Math.abs(this.chessArr[this.point.y][this.point.x])];
-
-      if(chessManType === '♙'){
-        // 兵一次向前最多走2步
-        const { abs } = Math;
-        if(abs(iy - this.point.y) > 2){
-          return;
-        }
+      const canMove = logic.canMove(this.chessArr,this.point.x,this.point.y,ix,iy)
+      if(!canMove){
+        return;
+      }
       
-        // TODO 同一个兵一次只能走一次2步 需要一个精确记录 -+6+index:1
-
-        // 兵往左右两方偏移不超过一步
-        if(abs(ix - this.point.x) > 1){
-          return;
-        }
-
-        // 兵不能水平移动
-        if(this.point.y - iy === 0){
-          return;
-        }
-
-        // 兵不能退后 
-        if(iy - this.point.y > 0){
-          return;
-        }
-
-        // 兵进2步
-        if((iy - this.point.y) === 2){
-          // 中间有棋子挡住
-          if(this.chessArr[this.point.y - 1][this.point.x]  === 0){
-            return;
-          }
-        }
-        
-        // 前方斜走不可超过 sqrt(2)
-        const { pow, sqrt } = Math;
-        const distance = sqrt(pow(this.point.x - ix, 2) + pow(this.point.y - iy, 2))
-        if(ix - this.point.x != 0 && distance > sqrt(2)){
-          return;
-        } 
-
-        // 斜着走不可落在空格上
-        if(distance === sqrt(2) && this.chessArr[iy][ix] === 0){
-          return;
-        }
-
-      }
-      if(chessManType === '♖'){
-          // [0 7] 收集车的走线,再判断障碍
-        let coordiates = []
-        for(let x = 0;x <= 7;x++){
-          // if(this.point.x + x < 8){
-          //   // 从车到点的距离中间没有棋子挡住
-          //   coordiates.push({
-          //     x:x,
-          //     y:this.point.y
-          //   })
-          // }
-          // if(x){
-          //   coordiates.push({
-          //     x:this.point.x,
-          //     y:y
-          //   })
-          // }
-        }
-      }
-
-      if(chessManType === '♘'){
-
-      }
-
-      if(chessManType === '♗'){
-
-      }
-
-      if(chessManType === '♔'){
-
-      }
-
-      if(chessManType === '♕'){
-
-      }
-////////////////
-
       // 修改数组
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
