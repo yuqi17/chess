@@ -141,10 +141,25 @@ export default {
           return;
         }
 
-
       }
       if(chessManType === '♖'){
-
+          // [0 7] 收集车的走线,再判断障碍
+        let coordiates = []
+        for(let x = 0;x <= 7;x++){
+          // if(this.point.x + x < 8){
+          //   // 从车到点的距离中间没有棋子挡住
+          //   coordiates.push({
+          //     x:x,
+          //     y:this.point.y
+          //   })
+          // }
+          // if(x){
+          //   coordiates.push({
+          //     x:this.point.x,
+          //     y:y
+          //   })
+          // }
+        }
       }
 
       if(chessManType === '♘'){
