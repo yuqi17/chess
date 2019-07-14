@@ -27,11 +27,6 @@ export default {
         return false;
       }
 
-      // 同一个兵一次只能走一次2步
-      if(this.jumpTwoRecord[chessArr[y0][x0]] === 1){
-        return;
-      }
-
       // 兵往左右两方偏移不超过一步
       if (abs(x1 - x0) > 1) {
         return false;
@@ -51,6 +46,11 @@ export default {
       if (abs(y1 - y0) === 2) {
         // 中间有棋子挡住
         if (chessArr[y0 - 1][x0] !== 0) {
+          return false;
+        }
+
+        // 同一个兵一次只能走一次2步
+        if(this.jumpTwoRecord[chessArr[y0][x0]] === 1){
           return false;
         }
       }
