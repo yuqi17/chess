@@ -20,7 +20,7 @@ export default {
   canMove(chessArr, x0, y0, x1, y1) {
     const { abs } = Math;
 
-    const chessManType = this.chessMan[abs(chessArr[y0][x0]) > 10 ? 6 : chessArr[y0][x0]];
+    const chessManType = this.chessMan[abs(chessArr[y0][x0]) > 10 ? 6 : abs(chessArr[y0][x0])];
     if (chessManType === '♙') {
       // 兵一次向前最多走2步
       if (abs(y1 - y0) > 2) {
@@ -74,21 +74,37 @@ export default {
     if (chessManType === '♖') {
       // [0 7] 收集车的走线,再判断障碍
       let coordiates = []
-      for (let x = 0; x <= 7; x++) {
-        // if(x0 + x < 8){
-        //   // 从车到点的距离中间没有棋子挡住
-        //   coordiates.push({
-        //     x:x,
-        //     y:y0
-        //   })
-        // }
-        // if(x){
-        //   coordiates.push({
-        //     x:x0,
-        //     y:y
-        //   })
-        // }
+      for (let c = 0; c <= 7; c++) {
+        if(y0 !== c){
+          coordiates = [...coordiates, {x:x0, y:c}]
+        }
+        if(x0 != c){
+          coordiates = [...coordiates, {x:c, y:y0}]
+        }
       }
+
+      // 落子点必须在路线列表中
+      const p = coordiates.find(({x,y}) => x === x1 && y === y1)
+      if(p === undefined)
+        return false;
+      
+      // 车到给定点中间不能有子
+      if(x0 === x1){// y 轴移动 
+        const middles = coordiates.filter(({x, y}) => x === x0 && ((y > y0 && y < y1) || (y > y1 && y < y0)))
+        const chessMan = middles.find(({x,y}) => chessArr[y][x] !== 0)
+        if(chessMan){// 中间有子
+          return false;
+        }
+      }
+
+      if(y0 === y1){// x 轴移动 
+        const middles = coordiates.filter(({x, y}) => y === y0 && ((x > x0 && x < x1) || (x > x1 && x < x0)))
+        const chessMan = middles.find(({x,y}) => chessArr[y][x] !== 0)
+        if(chessMan){// 中间有子
+          return false;
+        }
+      }
+
     }
 
     if (chessManType === '♘') {
