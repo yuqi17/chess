@@ -30,16 +30,16 @@ export default {
         [-6, -6, -6, -6, -6, -6, -6, -6],
         [-1, -2, -3, -4, -5, -3, -2, -1]
       ],
-      cellSize:60,
-      point:{
+      cellSize:60,    // 单元格大小
+      point:{         // 第一次选子的棋盘坐标
         x:-1,
         y:-1
       },
-      role: 1,// 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负 (后端分配)
-      cell:null,
-      step:0,
-      turn:1,// 1 表示 白走
-      kingRookTimes:1// 每方有一次王车易位的机会
+      role: 1,        // 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负 (后端分配)
+      cell:null,      // 选择的棋子node
+      step:0,         // 选子到落子的步数
+      turn:1,         // 1 表示 白走
+      kingRookTimes:1 // 每方有一次王车易位的机会
     }
   },
   mounted(){
@@ -97,7 +97,7 @@ export default {
       if(!canMove){
         return;
       }
-      
+
       // 修改数组
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
