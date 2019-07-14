@@ -8,17 +8,29 @@ export default {
     5: '♕',
     6: '♙'
   },
+  // 每兵第一次进2格的记录
+  jumpTwoRecord:{
+  },
+  init(){
+    for(let i = 1;i <= 8;i++){
+      this.jumpTwoRecord[60 + i] = 0;
+      this.jumpTwoRecord[-(60 + i)] = 0;
+    }
+  },
   canMove(chessArr, x0, y0, x1, y1) {
     const { abs } = Math;
 
-    const chessManType = this.chessMan[abs(chessArr[y0][x0])];
+    const chessManType = this.chessMan[abs(chessArr[y0][x0]) > 10 ? 6 : chessArr[y0][x0]];
     if (chessManType === '♙') {
       // 兵一次向前最多走2步
       if (abs(y1 - y0) > 2) {
         return false;
       }
 
-      // TODO 同一个兵一次只能走一次2步 需要一个精确记录 -+6+index:1
+      // TODO 同一个兵一次只能走一次2步
+      if(this.jumpTwoRecord[chessArr[y0][x0]] === 1){
+        return;
+      }
 
       // 兵往左右两方偏移不超过一步
       if (abs(x1 - x0) > 1) {
@@ -36,11 +48,13 @@ export default {
       }
 
       // 兵进2步
-      if ((y1 - y0) === 2) {
+      if (abs(y1 - y0) === 2) {
         // 中间有棋子挡住
-        if (chessArr[y0 - 1][x0] === 0) {
+        if (chessArr[y0 - 1][x0] !== 0) {
           return false;
         }
+        // 用掉了一次记录
+        this.jumpTwoRecord[chessArr[y0][x0]] = 1
       }
 
       // 前方斜走不可超过 sqrt(2)

@@ -3,7 +3,9 @@
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
-          <div :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">{{chessMan[Math.abs(chessArr[index][row])]}}</div>
+          <div :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
+            {{Math.abs(chessArr[index][row]) > 10 ? chessMan[6] : chessMan[Math.abs(chessArr[index][row])]}}
+          </div>
         </div>
       </div>
     </div>
@@ -22,12 +24,12 @@ export default {
       chessMan:logic.chessMan,
       chessArr: [
         [1, 2, 3, 4, 5, 3, 2, 1],
-        [6, 6, 6, 6, 6, 6, 6, 6],
+        [61, 62, 63, 64, 65, 66, 67, 68],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
-        [-6, -6, -6, -6, -6, -6, -6, -6],
+        [-61, -62, -63, -64, -65, -66, -67, -68],
         [-1, -2, -3, -4, -5, -3, -2, -1]
       ],
       cellSize:60,    // 单元格大小
@@ -43,6 +45,7 @@ export default {
     }
   },
   mounted(){
+    logic.init()
     // if(this.role === -1){
     //   this.chessArr = [
     //       [-6,-6,-6,-6,-6,-6,-6,-6],
