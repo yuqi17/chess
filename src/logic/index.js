@@ -27,7 +27,7 @@ export default {
         return false;
       }
 
-      // TODO 同一个兵一次只能走一次2步
+      // 同一个兵一次只能走一次2步
       if(this.jumpTwoRecord[chessArr[y0][x0]] === 1){
         return;
       }
