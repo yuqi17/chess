@@ -53,8 +53,6 @@ export default {
         if (chessArr[y0 - 1][x0] !== 0) {
           return false;
         }
-        // 用掉了一次记录
-        this.jumpTwoRecord[chessArr[y0][x0]] = 1
       }
 
       // 前方斜走不可超过 sqrt(2)
@@ -69,6 +67,9 @@ export default {
         return false;
       }
 
+      // 兵第一次走过后 进2步的机会就没有了
+      if(this.jumpTwoRecord[chessArr[y0][x0]] === 0)
+        this.jumpTwoRecord[chessArr[y0][x0]] = 1
     }
     if (chessManType === '♖') {
       // [0 7] 收集车的走线,再判断障碍
