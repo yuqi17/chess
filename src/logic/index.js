@@ -108,7 +108,19 @@ export default {
     }
 
     if (chessManType === '♘') {
-
+      let coordiates = []
+      coordiates = [... coordiates, {x: x0 + 1, y: y0 + 2}]
+      coordiates = [... coordiates, {x: x0 + 1, y: y0 - 2}]
+      coordiates = [... coordiates, {x: x0 - 1, y: y0 + 2}]
+      coordiates = [... coordiates, {x: x0 - 1, y: y0 - 2}]
+      coordiates = [... coordiates, {y: y0 + 1, x: y0 + 2}]
+      coordiates = [... coordiates, {y: y0 + 1, x: x0 - 2}]
+      coordiates = [... coordiates, {y: y0 - 1, x: x0 + 2}]
+      coordiates = [... coordiates, {y: y0 - 1, x: x0 - 2}]
+      const p = coordiates.find(({x, y}) => x1 === x && y1 === y)
+      if(p === undefined){// 马跳的点必须在列表中
+        return false
+      }
     }
 
     if (chessManType === '♗') {
