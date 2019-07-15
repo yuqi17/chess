@@ -3,7 +3,7 @@
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
-          <div :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
+          <div :ref="`${index}'-'${row}`" :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
             {{Math.abs(chessArr[index][row]) > 10 ? chessMan[6] : chessMan[Math.abs(chessArr[index][row])]}}
           </div>
         </div>
@@ -105,17 +105,17 @@ export default {
       if(this.chessArr[iy][ix] !==0)
         e.target.style.display = 'none'
 
+      // TODO 视图->吃子操作 普通占位吃子 2步过路兵吃子
+
+      // TODO 视图->判断兵升变 给出 后 车 相 马 的选择
+
+      // TODO 视图->棋子移动动画 判断王车易位 普通行走  吃子行走
+      this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
+    
       // TODO 普通修改数组 王车易位  2步过路兵  兵升变
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
 
-      // TODO 吃子dom 操作 普通占位吃子 2步过路兵吃子
-
-      // TODO 判断兵升变  给出 后 车 相 马 的选择
-
-      // TODO 棋子移动动画 判断王车易位 普通行走  吃子行走
-      this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
-    
       // TODO 判断胜负和
 
       // 轮谁走
