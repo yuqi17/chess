@@ -267,7 +267,7 @@ export default {
         if(x1 - x0 === -2){// 左边
           //TODO 王和车之间不能有子
           //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
-          
+
           this.kingRookSwap[chessArr[y0][x0]] = 1
           return this.KING_ROOK_SHORT_SWAP;
         }
@@ -283,12 +283,14 @@ export default {
         let coordiates = []
         coordiates.push({x: x0 + 1, y: y0 + 1})
         coordiates.push({x: x0 + 1, y: y0 - 1})
+        coordiates.push({x: x0 + 1, y: y0})
+
         coordiates.push({x: x0 - 1, y: y0 + 1})
         coordiates.push({x: x0 - 1, y: y0 - 1})
-        coordiates.push({y: y0 + 1, x: y0 + 1})
-        coordiates.push({y: y0 + 1, x: x0 - 1})
-        coordiates.push({y: y0 - 1, x: x0 + 1})
-        coordiates.push({y: y0 - 1, x: x0 - 1})
+        coordiates.push({x: x0 - 1, y: y0})
+
+        coordiates.push({y: y0 + 1, x:x0})
+        coordiates.push({y: y0 - 1, x:x0})
         const p = coordiates.find(({x, y}) => x1 === x && y1 === y)
         if(p === undefined){
           return false
