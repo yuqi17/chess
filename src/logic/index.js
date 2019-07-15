@@ -11,6 +11,7 @@ export default {
   // 每兵第一次进2格的记录
   jumpTwoRecord:{
   },
+  // 王车易位的记录
   kingRookSwap:{
     6:0,
     '-6':0
