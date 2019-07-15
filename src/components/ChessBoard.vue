@@ -101,18 +101,30 @@ export default {
         return;
       }
 
-      //TODO 需要role 网络支持 且子是自己的
-      if(this.chessArr[iy][ix] !==0)
+      if(canMove === logic.KILL_TW0_JUMP_PAWN){
+
+      }
+
+      if(canMove === logic.KING_ROOK_SHORT_SWAP){
+        
+      }
+
+      if(canMove === logic.KING_ROOK_LONG_SWAP){
+
+      }
+
+      if(canMove === logic.PAWN_ARRIVE_BOTTOM){
+
+      }
+
+      // 普通走法 落在对方棋子上,则吃子
+      if(this.chessArr[iy][ix] !== 0)
         e.target.style.display = 'none'
 
-      // TODO 视图->吃子操作 普通占位吃子 2步过路兵吃子
-
-      // TODO 视图->判断兵升变 给出 后 车 相 马 的选择
-
-      // TODO 视图->棋子移动动画 判断王车易位 普通行走  吃子行走
+      // 普通行走移动动画
       this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
     
-      // TODO 普通修改数组 王车易位  2步过路兵  兵升变
+      // 普通走法修改数组
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
 
