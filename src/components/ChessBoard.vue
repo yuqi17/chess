@@ -110,11 +110,11 @@ export default {
       }
 
       if(canMove === logic.KING_ROOK_SHORT_SWAP){
-        
+        console.log('short')
       }
 
       if(canMove === logic.KING_ROOK_LONG_SWAP){
-
+        console.log('long')
       }
 
       if(canMove === logic.PAWN_ARRIVE_BOTTOM){

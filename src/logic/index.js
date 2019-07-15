@@ -256,23 +256,28 @@ export default {
 
     if (chessManType === '♔') {
       // 王车易位
-      if (y0 === 0 && y0 === y1 && abs(x1 - x0) === 2) {
-        if(x1 - x0 === -2){// 左边
-          //TODO 王和车之间不能有子
-
-          //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
-        }
-
-        if(x1 - x0 === 2){// 右边
-          
-        }
+      if (y0 === 7 && y0 === y1 && abs(x1 - x0) === 2) {
         
-
-        // 照将不可走王车易位
-
         // 同一个王一次只能易位一次
         if(this.kingRookSwap[chessArr[y0][x0]] === 1){
           return false;
+        }
+
+
+        if(x1 - x0 === -2){// 左边
+          //TODO 王和车之间不能有子
+          //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
+          
+          this.kingRookSwap[chessArr[y0][x0]] = 1
+          return this.KING_ROOK_SHORT_SWAP;
+        }
+
+        if(x1 - x0 === 2){// 右边
+          //TODO 王和车之间不能有子
+          //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
+
+          this.kingRookSwap[chessArr[y0][x0]] = 1
+          return this.KING_ROOK_LONG_SWAP;
         }
       } else {
         let coordiates = []
