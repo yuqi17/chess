@@ -234,6 +234,125 @@ export default {
     }
 
     if (chessManType === '♕') {
+      let coordiates = []
+      for (let c = 0; c <= 7; c++) {
+        if(y0 !== c){
+          coordiates.push({x:x0, y:c})
+        }
+        if(x0 != c){
+          coordiates.push({x:c, y:y0})
+        }
+      }
+
+
+      //////
+      let x,y;
+      let direction = 1;
+      let delta = 1;
+
+      while(direction <= 4){
+        switch (direction) {
+          case 1://左上角
+            x = x0 - delta
+            y = y0 - delta
+            delta += 1
+            if(x >= 0 && y >= 0){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+          break;
+          case 2://右下角
+            x = x0 + delta
+            y = y0 + delta
+            delta += 1
+            if(x <= 7 && y <= 7){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+            break;
+          case 3://右上角
+            x = x0 + delta
+            y = y0 - delta
+            delta += 1
+            if(x <= 7 && y >= 0){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+            break;
+          default://左下角
+            x = x0 - delta
+            y = y0 + delta
+            delta += 1
+            if(x >= 0 && y <= 7){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+            break;
+        }
+      }
+
+      direction = 1
+
+      ///////
+      const p = coordiates.find(({x,y}) => x === x1 && y === y1)
+      if(p === undefined)
+        return false;
+
+      // 先判断方向
+      if(x1 > x0 && y1 < y0){// 右上角 3
+        direction = 3
+      } else if(x1 > x0 && y1 > y0){// 右下角 2
+        direction = 2
+      } else if(x1 < x0 && y1 < y0){// 左上角 1
+        direction = 1
+      } else if(x1 < x0 && y1 > y0){// 左下角 4
+        direction = 4
+      }
+
+      const middles1 = coordiates.filter(({x,y}) => {
+        if(direction === 1){
+          return (x < x0 && y < y0) && (x > x1 && y > y1)
+        } else if (direction === 2){
+          return (x > x0 && y > y0) && (x < x1 && y < y1)
+        } else if (direction === 3){
+          return (x > x0 && y < y0) && (x < x1 && y > y1)
+        } else {
+          return (x < x0 && y > y0) && (x > x1 && y < y1)
+        }
+        return false
+      })
+
+      let chessMan1 =  middles1.find(({x,y}) => chessArr[y][x] !== 0)
+
+      if(chessMan1){// 中间有子
+        return false;
+      }
+      
+      
+      // 车到给定点中间不能有子
+      if(x0 === x1){// y 轴移动 
+        const middles = coordiates.filter(({x, y}) => x === x0 && ((y > y0 && y < y1) || (y > y1 && y < y0)))
+        const chessMan = middles.find(({x,y}) => chessArr[y][x] !== 0)
+        if(chessMan){// 中间有子
+          return false;
+        }
+      }
+
+      if(y0 === y1){// x 轴移动 
+        const middles = coordiates.filter(({x, y}) => y === y0 && ((x > x0 && x < x1) || (x > x1 && x < x0)))
+        const chessMan = middles.find(({x,y}) => chessArr[y][x] !== 0)
+        if(chessMan){// 中间有子
+          return false;
+        }
+      }
 
     }
     return true;
