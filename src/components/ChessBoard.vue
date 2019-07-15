@@ -4,7 +4,7 @@
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
           <div v-if="chessArr[index][row] !== 0" :ref="`${index}-${row}`" :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
-            {{Math.abs(chessArr[index][row]) > 10 ? chessMan[6] : chessMan[Math.abs(chessArr[index][row])]}}
+            {{parseInt(Math.abs(chessArr[index][row]) % 100 / 10) === 6 ? chessMan[6] : parseInt(Math.abs(chessArr[index][row]) % 100 / 10) === 1 ? chessMan[1] : chessMan[Math.abs(chessArr[index][row])]}}
           </div>
         </div>
       </div>
@@ -23,14 +23,14 @@ export default {
     return {
       chessMan:logic.chessMan,
       chessArr: [
-        [1, 2, 3, 4, 5, 3, 2, 1],
+        [11, 2, 3, 4, 5, 3, 2, 12],
         [61, 62, 63, 64, 65, 66, 67, 68],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [-61, -62, -63, -64, -65, -66, -67, -68],
-        [-1, -2, -3, -4, -5, -3, -2, -1]
+        [-11, -2, -3, -4, -5, -3, -2, -12]
       ],
       cellSize:60,    // 单元格大小
       point:{         // 第一次选子的棋盘坐标

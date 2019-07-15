@@ -20,8 +20,9 @@ export default {
   },
   // 王车易位的记录
   kingRookSwap:{
-    4:0,
-    '-4':0
+    '-4':0,
+    '-11':0,
+    '-12':0
   },
   init(){
     for(let i = 1;i <= 8;i++){
@@ -32,7 +33,7 @@ export default {
   canMove(chessArr, x0, y0, x1, y1) {
     const { abs } = Math;
 
-    const chessManType = this.chessMan[abs(chessArr[y0][x0]) > 10 ? 6 : abs(chessArr[y0][x0])];
+    const chessManType = this.chessMan[parseInt(abs(chessArr[y0][x0]) % 100 / 10) === 6 ? 6 : parseInt(abs(chessArr[y0][x0]) % 100 / 10) === 1 ? 1 : abs(chessArr[y0][x0])];
     if (chessManType === '♙') {
 
       // 兵一次向前最多走2步
@@ -142,6 +143,8 @@ export default {
         }
       }
 
+      if(this.kingRookSwap[chessArr[y0][x0]] === 0)
+        this.kingRookSwap[chessArr[y0][x0]] = 1
     }
 
     if (chessManType === '♘') {
@@ -259,10 +262,9 @@ export default {
       if (y0 === 7 && y0 === y1 && abs(x1 - x0) === 2) {
         
         // 同一个王一次只能易位一次
-        if(this.kingRookSwap[chessArr[y0][x0]] === 1){
+        if(this.kingRookSwap[chessArr[y0][x0]] === 1 || this.kingRookSwap['-11'] === 1 || this.kingRookSwap['-12']  === 1){
           return false;
         }
-
 
         if(x1 - x0 === -2){// 左边
           //TODO 王和车之间不能有子
