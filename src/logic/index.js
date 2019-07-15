@@ -34,6 +34,7 @@ export default {
 
     const chessManType = this.chessMan[abs(chessArr[y0][x0]) > 10 ? 6 : abs(chessArr[y0][x0])];
     if (chessManType === '♙') {
+
       // 兵一次向前最多走2步
       if (abs(y1 - y0) > 2) {
         return false;
@@ -102,6 +103,10 @@ export default {
       // 兵第一次走过后 进2步的机会就没有了
       if(this.jumpTwoRecord[chessArr[y0][x0]] === 0)
         this.jumpTwoRecord[chessArr[y0][x0]] = 1
+      // 兵升变
+      if(y1 === 0){
+        return this.PAWN_ARRIVE_BOTTOM
+      }
     }
     if (chessManType === '♖') {
       // [0 7] 收集车的走线,再判断障碍

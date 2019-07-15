@@ -118,7 +118,7 @@ export default {
       }
 
       if(canMove === logic.PAWN_ARRIVE_BOTTOM){
-
+        console.log('兵升变的选择: 后 车 相 马')
       }
 
       // 普通走法 落在对方棋子上,则吃子
