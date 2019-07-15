@@ -186,8 +186,19 @@ export default {
   min-width: 520px;
 }
 
+@keyframes moveIn {
+  from{
+    opacity: 0;
+    transform: rotateZ(0deg) scale(5);
+  }
+  to {
+    transform: rotateZ(360deg) scale(1);
+    opacity: 1;
+  }
+}
+
 #board {  
-  position: relative;
+  animation: moveIn .8s ease 0s 1 normal forwards;
   display: flex;
   flex-wrap: wrap;
   width: 480px;
