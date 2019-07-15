@@ -111,12 +111,37 @@ export default {
 
       if(canMove === logic.KING_ROOK_SHORT_SWAP){
         console.log('short')
+
+        const rookX = this.point.x - 3;
+        const rookY = this.point.y;
+
+        // 播放车动画
+        (this.$refs[`${rookY}-${rookX}`][0]).style.transform += ` translateX(${2*this.cellSize}px)`
+      
+        // 改变数组
+        this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
+        this.chessArr[this.point.y][this.point.x] = 0;
+        this.chessArr[rookY][rookX] = 0;
+        this.chessArr[this.point.y][this.point.x + 1] = -11;
       }
 
       if(canMove === logic.KING_ROOK_LONG_SWAP){
         console.log('long')
+
+        const rookX = this.point.x + 4;
+        const rookY = this.point.y;
+
+        // 播放车动画
+        (this.$refs[`${rookY}-${rookX}`][0]).style.transform += ` translateX(${-3*this.cellSize}px)`
+      
+        // 改变数组
+        this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
+        this.chessArr[this.point.y][this.point.x] = 0;
+        this.chessArr[rookY][rookX] = 0;
+        this.chessArr[this.point.y][this.point.x - 1] = -12;
       }
 
+      // TODO 兵升变
       if(canMove === logic.PAWN_ARRIVE_BOTTOM){
         console.log('兵升变的选择: 后 车 相 马')
       }
