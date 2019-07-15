@@ -186,7 +186,6 @@ export default {
       }
 
       // 先判断方向
-     
       if(x1 > x0 && y1 < y0){// 右上角 3
         direction = 3
       } else if(x1 > x0 && y1 > y0){// 右下角 2
@@ -219,7 +218,19 @@ export default {
     }
 
     if (chessManType === '♔') {
-
+      let coordiates = []
+      coordiates.push({x: x0 + 1, y: y0 + 1})
+      coordiates.push({x: x0 + 1, y: y0 - 1})
+      coordiates.push({x: x0 - 1, y: y0 + 1})
+      coordiates.push({x: x0 - 1, y: y0 - 1})
+      coordiates.push({y: y0 + 1, x: y0 + 1})
+      coordiates.push({y: y0 + 1, x: x0 - 1})
+      coordiates.push({y: y0 - 1, x: x0 + 1})
+      coordiates.push({y: y0 - 1, x: x0 - 1})
+      const p = coordiates.find(({x, y}) => x1 === x && y1 === y)
+      if(p === undefined){
+        return false
+      }
     }
 
     if (chessManType === '♕') {
