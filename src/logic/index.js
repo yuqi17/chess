@@ -20,8 +20,8 @@ export default {
   },
   // 王车易位的记录
   kingRookSwap:{
-    6:0,
-    '-6':0
+    4:0,
+    '-4':0
   },
   init(){
     for(let i = 1;i <= 8;i++){
