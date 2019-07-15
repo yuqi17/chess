@@ -3,7 +3,7 @@
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
-          <div :ref="`${index}'-'${row}`" :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
+          <div v-if="chessArr[index][row] !== 0" :ref="`${index}-${row}`" :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
             {{Math.abs(chessArr[index][row]) > 10 ? chessMan[6] : chessMan[Math.abs(chessArr[index][row])]}}
           </div>
         </div>
@@ -101,8 +101,12 @@ export default {
         return;
       }
 
-      if(canMove === logic.KILL_TW0_JUMP_PAWN){
+      if(canMove === logic.KILL_LEFT_TW0_JUMP_PAWN){
+        (this.$refs[`${this.point.y + 2}-${this.point.x - 1}`][0]).style.display = 'none'
+      }
 
+      if(canMove === logic.KILL_RIGHT_TW0_JUMP_PAWN){
+        (this.$refs[`${this.point.y + 2}-${this.point.x + 1}`][0]).style.display = 'none'
       }
 
       if(canMove === logic.KING_ROOK_SHORT_SWAP){

@@ -1,10 +1,12 @@
 
-export const PAWN_ARRIVE_BOTTOM =   1;// 兵到了对方的底线
-export const KILL_TW0_JUMP_PAWN =   2;// 吃进2步的过路兵
-export const KING_ROOK_SHORT_SWAP = 3;// 短易位
-export const KING_ROOK_LONG_SWAP =  4;// 长易位
+
 
 export default {
+  PAWN_ARRIVE_BOTTOM:1,   // 兵到了对方的底线
+  KILL_LEFT_TW0_JUMP_PAWN:21,   // 吃左边进2步的过路兵
+  KILL_RIGHT_TW0_JUMP_PAWN:22,   // 吃右边进2步的过路兵
+  KING_ROOK_SHORT_SWAP:31, // 短易位
+  KING_ROOK_LONG_SWAP: 32, // 长易位
   chessMan: {
     1: '♖',
     2: '♘',
@@ -85,12 +87,12 @@ export default {
           if(x1 - x0 < 0){// 如果向左斜走一步不可以
             return false;
           }
-          return KILL_TOW_JUMP_PAWN;
+          return this.KILL_RIGHT_TW0_JUMP_PAWN;
         } else if(x0 - 1 >=0 && abs(chessArr[y0][x0 - 1]) > 10 && this.jumpTwoRecord[chessArr[y0][x0 - 1]] === 1){
-          if(x1 - x0 > 0){// 如果向左斜走一步不可以
+          if(x1 - x0 > 0){// 如果向右边斜走一步不可以
             return false;
           }
-          return KILL_TOW_JUMP_PAWN;
+          return this.KILL_LEFT_TW0_JUMP_PAWN;
         } else {
           if(chessArr[y1][x1] === 0)
             return false;
