@@ -131,7 +131,7 @@ export default {
       coordiates.push({x: x0 + 1, y: y0 - 2})
       coordiates.push({x: x0 - 1, y: y0 + 2})
       coordiates.push({x: x0 - 1, y: y0 - 2})
-      coordiates.push({y: y0 + 1, x: y0 + 2})
+      coordiates.push({y: y0 + 1, x: x0 + 2})
       coordiates.push({y: y0 + 1, x: x0 - 2})
       coordiates.push({y: y0 - 1, x: x0 + 2})
       coordiates.push({y: y0 - 1, x: x0 - 2})
