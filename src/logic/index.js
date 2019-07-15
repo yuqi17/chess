@@ -11,6 +11,10 @@ export default {
   // 每兵第一次进2格的记录
   jumpTwoRecord:{
   },
+  kingRookSwap:{
+    6:0,
+    '-6':0
+  },
   init(){
     for(let i = 1;i <= 8;i++){
       this.jumpTwoRecord[60 + i] = 0;
@@ -218,19 +222,38 @@ export default {
     }
 
     if (chessManType === '♔') {
-      let coordiates = []
-      coordiates.push({x: x0 + 1, y: y0 + 1})
-      coordiates.push({x: x0 + 1, y: y0 - 1})
-      coordiates.push({x: x0 - 1, y: y0 + 1})
-      coordiates.push({x: x0 - 1, y: y0 - 1})
-      coordiates.push({y: y0 + 1, x: y0 + 1})
-      coordiates.push({y: y0 + 1, x: x0 - 1})
-      coordiates.push({y: y0 - 1, x: x0 + 1})
-      coordiates.push({y: y0 - 1, x: x0 - 1})
-      const p = coordiates.find(({x, y}) => x1 === x && y1 === y)
-      if(p === undefined){
-        return false
+      // 王车易位
+      if (abs(x1 - x0) === 2) {
+        // 中间有棋子挡住
+        if (chessArr[y0][x0 + 1] !== 0 || chessArr[y0][x0 - 1] !== 0) {
+          return false;
+        }
+
+        // 照将不可走王车易位
+
+        // 同一个王一次只能易位一次
+        if(this.kingRookSwap[chessArr[y0][x0]] === 1){
+          return false;
+        }
+      } else {
+        let coordiates = []
+        coordiates.push({x: x0 + 1, y: y0 + 1})
+        coordiates.push({x: x0 + 1, y: y0 - 1})
+        coordiates.push({x: x0 - 1, y: y0 + 1})
+        coordiates.push({x: x0 - 1, y: y0 - 1})
+        coordiates.push({y: y0 + 1, x: y0 + 1})
+        coordiates.push({y: y0 + 1, x: x0 - 1})
+        coordiates.push({y: y0 - 1, x: x0 + 1})
+        coordiates.push({y: y0 - 1, x: x0 - 1})
+        const p = coordiates.find(({x, y}) => x1 === x && y1 === y)
+        if(p === undefined){
+          return false
+        }
       }
+
+      // 王动了一次 就没有王车易位的机会
+      if(this.kingRookSwap[chessArr[y0][x0]] === 0)
+        this.kingRookSwap[chessArr[y0][x0]] = 1
     }
 
     if (chessManType === '♕') {
