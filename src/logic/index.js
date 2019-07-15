@@ -210,9 +210,11 @@ export default {
         return false
       })
 
-      middles
+      let chessMan =  middles.find(({x,y}) => chessArr[y][x] !== 0)
 
-      console.log(middles)
+      if(chessMan){// 中间有子
+        return false;
+      }
 
     }
 
