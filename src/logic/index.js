@@ -236,7 +236,7 @@ export default {
 
     if (chessManType === '♔') {
       // 王车易位
-      if (abs(x1 - x0) === 2) {
+      if (y0 === 0 && y0 === y1 && abs(x1 - x0) === 2) {
         if(x1 - x0 === -2){// 左边
           //TODO 王和车之间不能有子
 
