@@ -47,6 +47,11 @@ export default {
         return false;
       }
 
+      // 兵不能直行吃子
+      if(x0 === x1 && chessArr[y1][x1] !== 0){
+        return false;
+      }
+
       // 兵进2步
       if (abs(y1 - y0) === 2) {
         // 中间有棋子挡住
