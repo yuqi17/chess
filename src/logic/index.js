@@ -66,9 +66,22 @@ export default {
         return false;
       }
 
-      // 斜着走不可落在空格上
-      if (distance === sqrt(2) && chessArr[y1][x1] === 0) {
-        return false;
+      // 斜着走不可落在空格上 
+      if (distance === sqrt(2)) {
+        
+        // 相邻对方的兵进2步 右相邻 可以斜进吃 过路兵()
+        if(x0 + 1 <= 7 && abs(chessArr[y0][x0 + 1]) > 10 && this.jumpTwoRecord[chessArr[y0][x0 + 1]] === 1){
+          if(x1 - x0 < 0){// 如果向左斜走一步不可以
+            return false;
+          }
+        } else if(x0 - 1 >=0 && abs(chessArr[y0][x0 - 1]) > 10 && this.jumpTwoRecord[chessArr[y0][x0 - 1]] === 1){
+          if(x1 - x0 > 0){// 如果向左斜走一步不可以
+            return false;
+          }
+        } else {
+          if(chessArr[y1][x1] === 0)
+            return false;
+        }
       }
 
       // 兵第一次走过后 进2步的机会就没有了
