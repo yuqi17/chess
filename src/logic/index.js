@@ -224,10 +224,16 @@ export default {
     if (chessManType === '♔') {
       // 王车易位
       if (abs(x1 - x0) === 2) {
-        // 中间有棋子挡住
-        if (chessArr[y0][x0 + 1] !== 0 || chessArr[y0][x0 - 1] !== 0) {
-          return false;
+        if(x1 - x0 === -2){// 左边
+          //TODO 王和车之间不能有子
+
+          //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
         }
+
+        if(x1 - x0 === 2){// 右边
+          
+        }
+        
 
         // 照将不可走王车易位
 
