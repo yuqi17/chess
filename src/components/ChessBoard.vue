@@ -101,20 +101,21 @@ export default {
         return;
       }
 
-      // TODO 判断王车易位 动画也不一样了
-
-      // TODO 判断兵升变  给出 后 车 相 马 的选择
-
-      // 修改数组
+      // TODO 普通修改数组 王车易位  2步过路兵  兵升变
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
 
-      // 落子的格子里有对方棋子 消失掉这个棋子节点
+      // TODO 吃子dom 操作 普通占位吃子 2步过路兵吃子
       e.target.style.display = 'none'
 
-      // 棋子移动动画
+      // TODO 判断兵升变  给出 后 车 相 马 的选择
+
+      // TODO 棋子移动动画 判断王车易位 普通行走  吃子行走
       this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
     
+      // TODO 判断胜负和
+
+      // 轮谁走
       this.turn = -this.turn;
     }
   }
