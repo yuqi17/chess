@@ -101,6 +101,10 @@ export default {
         return;
       }
 
+      // TODO 判断王车易位 动画也不一样了
+
+      // TODO 判断兵升变  给出 后 车 相 马 的选择
+
       // 修改数组
       this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
       this.chessArr[this.point.y][this.point.x] = 0;
