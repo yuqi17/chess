@@ -177,10 +177,43 @@ export default {
             break;
         }
       }
+
+      direction = 1
+
       const p = coordiates.find(({x, y}) => x === x1 && y === y1)
       if(p === undefined){
         return false;
       }
+
+      // 先判断方向
+     
+      if(x1 > x0 && y1 < y0){// 右上角 3
+        direction = 3
+      } else if(x1 > x0 && y1 > y0){// 右下角 2
+        direction = 2
+      } else if(x1 < x0 && y1 < y0){// 左上角 1
+        direction = 1
+      } else if(x1 < x0 && y1 > y0){// 左下角 4
+        direction = 4
+      }
+
+      const middles = coordiates.filter(({x,y}) => {
+        if(direction === 1){
+          return (x < x0 && y < y0) && (x > x1 && y > y1)
+        } else if (direction === 2){
+          return (x > x0 && y > y0) && (x < x1 && y < y1)
+        } else if (direction === 3){
+          return (x > x0 && y < y0) && (x < x1 && y > y1)
+        } else {
+          return (x < x0 && y > y0) && (x > x1 && y < y1)
+        }
+        return false
+      })
+
+      middles
+
+      console.log(middles)
+
     }
 
     if (chessManType === '♔') {
