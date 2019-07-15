@@ -76,10 +76,10 @@ export default {
       let coordiates = []
       for (let c = 0; c <= 7; c++) {
         if(y0 !== c){
-          coordiates = [...coordiates, {x:x0, y:c}]
+          coordiates.push({x:x0, y:c})
         }
         if(x0 != c){
-          coordiates = [...coordiates, {x:c, y:y0}]
+          coordiates.push({x:c, y:y0})
         }
       }
 
@@ -109,14 +109,14 @@ export default {
 
     if (chessManType === '♘') {
       let coordiates = []
-      coordiates = [... coordiates, {x: x0 + 1, y: y0 + 2}]
-      coordiates = [... coordiates, {x: x0 + 1, y: y0 - 2}]
-      coordiates = [... coordiates, {x: x0 - 1, y: y0 + 2}]
-      coordiates = [... coordiates, {x: x0 - 1, y: y0 - 2}]
-      coordiates = [... coordiates, {y: y0 + 1, x: y0 + 2}]
-      coordiates = [... coordiates, {y: y0 + 1, x: x0 - 2}]
-      coordiates = [... coordiates, {y: y0 - 1, x: x0 + 2}]
-      coordiates = [... coordiates, {y: y0 - 1, x: x0 - 2}]
+      coordiates.push({x: x0 + 1, y: y0 + 2})
+      coordiates.push({x: x0 + 1, y: y0 - 2})
+      coordiates.push({x: x0 - 1, y: y0 + 2})
+      coordiates.push({x: x0 - 1, y: y0 - 2})
+      coordiates.push({y: y0 + 1, x: y0 + 2})
+      coordiates.push({y: y0 + 1, x: x0 - 2})
+      coordiates.push({y: y0 - 1, x: x0 + 2})
+      coordiates.push({y: y0 - 1, x: x0 - 2})
       const p = coordiates.find(({x, y}) => x1 === x && y1 === y)
       if(p === undefined){// 马跳的点必须在列表中
         return false
@@ -124,7 +124,63 @@ export default {
     }
 
     if (chessManType === '♗') {
+      let coordiates = []
+      let x,y;
+      let direction = 1;
+      let delta = 1;
 
+      while(direction <= 4){
+        switch (direction) {
+          case 1://左上角
+            x = x0 - delta
+            y = y0 - delta
+            delta += 1
+            if(x >= 0 && y >= 0){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+          break;
+          case 2://右下角
+            x = x0 + delta
+            y = y0 + delta
+            delta += 1
+            if(x <= 7 && y <= 7){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+            break;
+          case 3://右上角
+            x = x0 + delta
+            y = y0 - delta
+            delta += 1
+            if(x <= 7 && y >= 0){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+            break;
+          default://左下角
+            x = x0 - delta
+            y = y0 + delta
+            delta += 1
+            if(x >= 0 && y <= 7){
+              coordiates.push({x,y})
+            } else {
+              direction += 1
+              delta = 1
+            }
+            break;
+        }
+      }
+      const p = coordiates.find(({x, y}) => x === x1 && y === y1)
+      if(p === undefined){
+        return false;
+      }
     }
 
     if (chessManType === '♔') {
