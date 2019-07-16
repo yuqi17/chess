@@ -267,7 +267,14 @@ export default {
         }
 
         if(x1 - x0 === -2){// 左边
+          // 王和车之间的格子
+          let middles = [{x:1,y:7}, {x:2,y:7}];
+
           //TODO 王和车之间不能有子
+          if(middles.some(({x,y}) => chessArr[y][x] !== 0)){
+            return false;
+          }
+
           //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
 
           this.kingRookSwap[chessArr[y0][x0]] = 1
@@ -275,7 +282,15 @@ export default {
         }
 
         if(x1 - x0 === 2){// 右边
+          let middles = [
+            {x:4,y:7},
+            {x:5,y:7},
+            {x:6,y:7}
+          ]
           //TODO 王和车之间不能有子
+          if(middles.some(({x,y}) => chessArr[y][x] !== 0)){
+            return false;
+          }
           //TODO 王和车之间不能被对方的 车 马 相 王 后 兵 照将
 
           this.kingRookSwap[chessArr[y0][x0]] = 1
