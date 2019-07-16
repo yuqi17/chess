@@ -59,6 +59,7 @@ export default {
   background: rgb(102, 93, 93);
   font-size: 40px;
   cursor: pointer;
+  text-align: center;
 }
 
 .white{
