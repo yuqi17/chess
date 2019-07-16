@@ -22,7 +22,10 @@ export default {
   kingRookSwap:{
     '-4':0,
     '-11':0,
-    '-12':0
+    '-12':0,
+    '4':0,
+    '11':0,
+    '12':0
   },
   init(){
     for(let i = 1;i <= 8;i++){
@@ -262,7 +265,12 @@ export default {
       if (y0 === 7 && y0 === y1 && abs(x1 - x0) === 2) {
         
         // 同一个王一次只能易位一次
-        if(this.kingRookSwap[chessArr[y0][x0]] === 1 || this.kingRookSwap['-11'] === 1 || this.kingRookSwap['-12']  === 1){
+        if(this.kingRookSwap[chessArr[y0][x0]] === 1 
+          || this.kingRookSwap['-11'] === 1 
+          || this.kingRookSwap['11'] === 1 
+          || this.kingRookSwap['-12']  === 1
+          || this.kingRookSwap['12']  === 1
+          ){
           return false;
         }
 
