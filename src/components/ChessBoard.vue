@@ -9,16 +9,22 @@
         </div>
       </div>
     </div>
+
     <!-- <audio autoplay>
       <source src="../assets/1.wav"/>
     </audio> -->
+    <upgrade-picker v-if="showPicker" :role="1" @change='pickerChange'></upgrade-picker>
   </div>
 </template>
 
 <script>
 import logic from '../logic/index'
+import UpgradePicker from './UpgradePicker';
 
 export default {
+  components:{
+    UpgradePicker
+  },
   data(){
     return {
       chessMan:logic.chessMan,
@@ -41,11 +47,16 @@ export default {
         x:-1,
         y:-1
       },
+      movedPoint:{   // 棋子走后的坐标
+        x:-1,
+        y:-1
+      },
       role: 1,        // 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负 (后端分配)
       cell:null,      // 选择的棋子node
       step:0,         // 选子到落子的步数
       turn:1,         // 1 表示 白走
-      kingRookTimes:1 // 每方有一次王车易位的机会
+      kingRookTimes:1, // 每方有一次王车易位的机会
+      showPicker:false // 兵升变弹层显示
     }
   },
   mounted(){
@@ -77,6 +88,14 @@ export default {
 
   },
   methods:{
+
+    pickerChange(code){
+      console.log(code)
+      this.showPicker = false;
+      // 修改数组
+      const { x , y } = this.movedPoint;
+      this.chessArr[y][x] = code;
+    },
 
     move(e){// 我方移动棋子
 
@@ -115,6 +134,11 @@ export default {
       const canMove = logic.canMove(this.chessArr,this.point.x,this.point.y,ix,iy)
       if(!canMove){
         return;
+      }
+
+      this.movedPoint = {
+        x:ix,
+        y:iy
       }
 
       if(canMove === logic.KILL_LEFT_TW0_JUMP_PAWN){
@@ -160,10 +184,11 @@ export default {
       // TODO 兵升变
       if(canMove === logic.PAWN_ARRIVE_BOTTOM){
         console.log('兵升变的选择: 后 车 相 马')
+        this.showPicker = true;
       }
 
       // 普通走法 落在对方棋子上,则吃子
-      if(this.chessArr[iy][ix] !== 0)
+      if(this.chessArr[iy][ix] !== 0 && canMove !== logic.PAWN_ARRIVE_BOTTOM)
         e.target.style.display = 'none'
 
       // 普通行走移动动画
