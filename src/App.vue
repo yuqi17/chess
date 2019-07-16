@@ -12,6 +12,8 @@ export default {
 
 <style>
 html, body{
+  /*防止默认值出现滚动条*/
+  margin:0;
   height: 100%;
   width: 100%;
 }
