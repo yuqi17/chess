@@ -270,7 +270,7 @@ export default {
           // 王和车之间的格子
           let middles = [{x:1,y:7}, {x:2,y:7}];
 
-          //TODO 王和车之间不能有子
+          //王和车之间不能有子
           if(middles.some(({x,y}) => chessArr[y][x] !== 0)){
             return false;
           }
@@ -287,7 +287,7 @@ export default {
             {x:5,y:7},
             {x:6,y:7}
           ]
-          //TODO 王和车之间不能有子
+          //王和车之间不能有子
           if(middles.some(({x,y}) => chessArr[y][x] !== 0)){
             return false;
           }
@@ -329,7 +329,6 @@ export default {
           coordiates.push({x:c, y:y0})
         }
       }
-
 
       //////
       let x,y;
@@ -441,7 +440,13 @@ export default {
       }
 
     }
+
     return true;
+  },
+  check(x,y){
+    ['♔','♕','♙'].forEach(item => {
+      
+    })
   }
 
 }
