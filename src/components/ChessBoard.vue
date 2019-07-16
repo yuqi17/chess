@@ -249,6 +249,7 @@ export default {
   font-size: 40px;
   transition: all .3s;
   height: 100%;
+  text-align: center;
 }
 
 .white{
