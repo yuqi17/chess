@@ -159,10 +159,11 @@ export default {
         (this.$refs[`${rookY}-${rookX}`][0]).style.transform += ` translateX(${2*this.cellSize}px)`
       
         // 改变数组
-        this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
-        this.chessArr[this.point.y][this.point.x] = 0;
+        this.chessArr[iy][ix] = 0;
         this.chessArr[rookY][rookX] = 0;
-        this.chessArr[this.point.y][this.point.x + 1] = -11;
+
+        this.chessArr[this.point.y][this.point.x] = 4;
+        this.chessArr[this.point.y][this.point.x - 1] = 11;
       }
 
       if(canMove === logic.KING_ROOK_LONG_SWAP){
@@ -175,10 +176,13 @@ export default {
         (this.$refs[`${rookY}-${rookX}`][0]).style.transform += ` translateX(${-3*this.cellSize}px)`
       
         // 改变数组
-        this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
-        this.chessArr[this.point.y][this.point.x] = 0;
+        // 原来王的位置
+        this.chessArr[iy][ix] = 0;
+        // 原来车的位置
         this.chessArr[rookY][rookX] = 0;
-        this.chessArr[this.point.y][this.point.x - 1] = -12;
+        // 现在
+        this.chessArr[this.point.y][this.point.x] = 4;
+        this.chessArr[this.point.y][this.point.x + 1] = 12;
       }
 
       // TODO 兵升变
