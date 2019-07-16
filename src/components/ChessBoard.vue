@@ -39,7 +39,14 @@ export default {
         // [0,0,0,5,0,0,0,0],
         // [0,0,0,0,0,0,0,0],
         
-
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
         
       ],
       cellSize:60,    // 单元格大小
@@ -62,71 +69,60 @@ export default {
   mounted(){
     logic.init()
     // TODO 通过网络获得 role 的值
-    if(this.role === -1){
-      this.chessArr = [
-          [11, 2, 3, 4, 5, 3, 2, 12],
-          [61, 62, 63, 64, 65, 66, 67, 68],
-          [0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0, 0, 0, 0],
-          [-61, -62, -63, -64, -65, -66, -67, -68],
-          [-11, -2, -3, -4, -5, -3, -2, -12]
-      ]
-    } else {
-      this.chessArr = [
-        [-11, -2, -3, -4, -5, -3, -2, -12],
-        [-61, -62, -63, -64, -65, -66, -67, -68],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [61, 62, 63, 64, 65, 66, 67, 68],
-        [11, 2, 3, 4, 5, 3, 2, 12]
-      ]
-    }
+    // if(this.role === -1){
+    //   this.chessArr = [
+    //       [11, 2, 3, 4, 5, 3, 2, 12],
+    //       [61, 62, 63, 64, 65, 66, 67, 68],
+    //       [0, 0, 0, 0, 0, 0, 0, 0],
+    //       [0, 0, 0, 0, 0, 0, 0, 0],
+    //       [0, 0, 0, 0, 0, 0, 0, 0],
+    //       [0, 0, 0, 0, 0, 0, 0, 0],
+    //       [-61, -62, -63, -64, -65, -66, -67, -68],
+    //       [-11, -2, -3, -4, -5, -3, -2, -12]
+    //   ]
+    // } else {
+    //   this.chessArr = [
+    //     [-11, -2, -3, -4, -5, -3, -2, -12],
+    //     [-61, -62, -63, -64, -65, -66, -67, -68],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [61, 62, 63, 64, 65, 66, 67, 68],
+    //     [11, 2, 3, 4, 5, 3, 2, 12]
+    //   ]
+    // }
 
-    // test
-    // const hx = Math.round(Math.random() * 7)
-    // const hy = Math.round(Math.random() * 7)
-
-    //  setInterval(()=>{
-    //      const {x, y} = this.jump({x:hx,y:hy})
-
-    //   },1000)
-   
+    // 跳动的马不带动画
+    // this.test();
 
   },
   methods:{
-
-    // jump horse
-    // jump({x0,y0}){
-    //   this.chessArr = [
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //     [0, 0, 2, 0, 0, 0, 0, 0],
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //     [0, 0, 0, 0, 0, 0, 0, 0],
-    //   ]
-    //   let coordiates = []
-    //   coordiates.push({x: x0 + 1, y: y0 + 2})
-    //   coordiates.push({x: x0 + 1, y: y0 - 2})
-    //   coordiates.push({x: x0 - 1, y: y0 + 2})
-    //   coordiates.push({x: x0 - 1, y: y0 - 2})
-    //   coordiates.push({y: y0 + 1, x: x0 + 2})
-    //   coordiates.push({y: y0 + 1, x: x0 - 2})
-    //   coordiates.push({y: y0 - 1, x: x0 + 2})
-    //   coordiates.push({y: y0 - 1, x: x0 - 2});
-
-    //   const {x, y}  = coordiates[Math.round(Math.random() * coordiates.length)]
-    //   this.chessArr[y][x] = 2;
-    //   this.chessArr[y0][x0] = 0;
-    //   return {x, y};
-    // },
-
+    test(){
+          // test
+    let x0 = Math.floor(Math.random() * 7);
+    let y0 = Math.floor(Math.random() * 7);
+    this.chessArr[y0][x0] = 2;
+    let self = this;
+    window.setInterval(()=>{
+      let coordiates = []
+      coordiates.push({x: x0 + 1, y: y0 + 2})
+      coordiates.push({x: x0 + 1, y: y0 - 2})
+      coordiates.push({x: x0 - 1, y: y0 + 2})
+      coordiates.push({x: x0 - 1, y: y0 - 2})
+      coordiates.push({y: y0 + 1, x: x0 + 2})
+      coordiates.push({y: y0 + 1, x: x0 - 2})
+      coordiates.push({y: y0 - 1, x: x0 + 2})
+      coordiates.push({y: y0 - 1, x: x0 - 2});
+      const {x, y} = coordiates[Math.floor(Math.random() * coordiates.length)]
+      if(x >=0 && x <=7 && y>=0 && y <=7){
+        self.chessArr[y0][x0] = 0;
+        self.$set(self.chessArr[y],x,2)
+        x0 = x;
+        y0 = y;
+      }
+    },800)
+    },
     pickerChange(code){
       console.log(code)
       this.showPicker = false;
