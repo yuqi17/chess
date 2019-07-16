@@ -254,6 +254,8 @@ export default {
   transition: all .3s;
   height: 100%;
   text-align: center;
+  cursor:default;
+  user-select: none;
 }
 
 .white{
