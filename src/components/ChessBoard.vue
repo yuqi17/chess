@@ -86,8 +86,46 @@ export default {
       ]
     }
 
+    // test
+    // const hx = Math.round(Math.random() * 7)
+    // const hy = Math.round(Math.random() * 7)
+
+    //  setInterval(()=>{
+    //      const {x, y} = this.jump({x:hx,y:hy})
+
+    //   },1000)
+   
+
   },
   methods:{
+
+    // jump horse
+    // jump({x0,y0}){
+    //   this.chessArr = [
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 2, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //     [0, 0, 0, 0, 0, 0, 0, 0],
+    //   ]
+    //   let coordiates = []
+    //   coordiates.push({x: x0 + 1, y: y0 + 2})
+    //   coordiates.push({x: x0 + 1, y: y0 - 2})
+    //   coordiates.push({x: x0 - 1, y: y0 + 2})
+    //   coordiates.push({x: x0 - 1, y: y0 - 2})
+    //   coordiates.push({y: y0 + 1, x: x0 + 2})
+    //   coordiates.push({y: y0 + 1, x: x0 - 2})
+    //   coordiates.push({y: y0 - 1, x: x0 + 2})
+    //   coordiates.push({y: y0 - 1, x: x0 - 2});
+
+    //   const {x, y}  = coordiates[Math.round(Math.random() * coordiates.length)]
+    //   this.chessArr[y][x] = 2;
+    //   this.chessArr[y0][x0] = 0;
+    //   return {x, y};
+    // },
 
     pickerChange(code){
       console.log(code)
