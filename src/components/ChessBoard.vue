@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <button @click="playWith">下棋</button>
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
@@ -8,6 +9,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- <audio autoplay>
@@ -33,6 +35,12 @@ export default {
   },
   data(){
     return {
+      user:{
+        userId:-1,
+        role: 1,        // 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负 (后端分配)
+        toId:-1
+      },
+      status:0, // 0 未开始 1 开始
       chessMan:logic.chessMan,
       chessArr: [
         // heart
@@ -64,31 +72,25 @@ export default {
         x:-1,
         y:-1
       },
-      role: 1,        // 1 表示是白方 棋子为正 -1 表示黑方一方棋子为负 (后端分配)
       cell:null,      // 选择的棋子node
       step:0,         // 选子到落子的步数
       turn:1,         // 1 表示 白走
-      kingRookTimes:1, // 每方有一次王车易位的机会
       showPicker:false // 兵升变弹层显示
     }
   },
-  mounted(){
-    logic.init()
-    // 跳动的马不带动画
-    // this.test();
-  },
 
   sockets: {
+
     connect: function () {
       console.log('socket connected')
     },
-    message: function ({userId,message}) {
 
-    },
-    from({userId,role}) {
+    from(data) {
+      const {userId, role} = data
+      this.user.role = role;
+      this.user.toId = userId;
 
-      this.role = role;
-      if(this.role === -1){
+      if(this.user.role === -1){
         this.chessArr = [
           [11, 2, 3, 4, 5, 3, 2, 12],
           [61, 62, 63, 64, 65, 66, 67, 68],
@@ -111,34 +113,25 @@ export default {
         [11, 2, 3, 4, 5, 3, 2, 12]
       ]
       }
+    },
+
+    move(data){
+      const { turn } = data;
+      console.log(data)
+      this.turn = turn;
     }
   },
+
+  mounted(){
+    logic.init()
+     this.user.userId =  "u:" + Date.now()
+     this.$socket.emit('registry',this.user)
+  },
+
   methods:{
 
-    test(){
-          // test
-      let x0 = Math.floor(Math.random() * 7);
-      let y0 = Math.floor(Math.random() * 7);
-      this.chessArr[y0][x0] = 2;
-      let self = this;
-      window.setInterval(()=>{
-        let coordiates = []
-        coordiates.push({x: x0 + 1, y: y0 + 2})
-        coordiates.push({x: x0 + 1, y: y0 - 2})
-        coordiates.push({x: x0 - 1, y: y0 + 2})
-        coordiates.push({x: x0 - 1, y: y0 - 2})
-        coordiates.push({y: y0 + 1, x: x0 + 2})
-        coordiates.push({y: y0 + 1, x: x0 - 2})
-        coordiates.push({y: y0 - 1, x: x0 + 2})
-        coordiates.push({y: y0 - 1, x: x0 - 2});
-        const {x, y} = coordiates[Math.floor(Math.random() * coordiates.length)]
-        if(x >=0 && x <=7 && y>=0 && y <=7){
-          self.chessArr[y0][x0] = 0;
-          self.$set(self.chessArr[y],x,2)
-          x0 = x;
-          y0 = y;
-        }
-      },800)
+    playWith(){
+      this.$socket.emit('playWith',this.user)
     },
 
     pickerChange(code){
@@ -151,9 +144,9 @@ export default {
     move(e){// 我方移动棋子
 
       // 这个判断在网络版再加上
-      // if(this.turn !== this.role){// 不该你走
-      //   return;
-      // }
+      if(this.turn !== this.user.role){// 不该你走
+        return;
+      }
 
       const left = this.$refs['board'].offsetLeft;
       const top = this.$refs['board'].offsetTop;
@@ -176,10 +169,10 @@ export default {
 
       this.step = 0; // 落子完毕,不管是否是有效落子
 
-      // 这个判断也网络版再加上
-      // if(this.role  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
-      //   return;
-      // }
+      // 落子在自己的子上
+      if(this.user.role  * this.chessArr[iy][ix] > 0){// 落子在自己的子上
+        return;
+      }
 
       // 有效落子的判断
       const canMove = logic.canMove(this.chessArr,this.point.x,this.point.y,ix,iy)
@@ -201,8 +194,6 @@ export default {
       }
 
       if(canMove === logic.KING_ROOK_SHORT_SWAP){
-        console.log('short')
-
         const rookX = this.point.x - 3;
         const rookY = this.point.y;
 
@@ -218,8 +209,6 @@ export default {
       }
 
       if(canMove === logic.KING_ROOK_LONG_SWAP){
-        console.log('long')
-
         const rookX = this.point.x + 4;
         const rookY = this.point.y;
 
@@ -236,9 +225,8 @@ export default {
         this.chessArr[this.point.y][this.point.x + 1] = 12;
       }
 
-      // TODO 兵升变
+      // 兵升变
       if(canMove === logic.PAWN_ARRIVE_BOTTOM){
-        console.log('兵升变的选择: 后 车 相 马')
         this.showPicker = true;
       }
 
@@ -257,6 +245,13 @@ export default {
 
       // 轮谁走
       this.turn = -this.turn;
+
+      this.$socket.emit('move',{
+        toId:this.user.toId,
+        point: this.point,
+        movedPoint: this.movedPoint,
+        turn: this.turn
+      })
     }
   }
 
