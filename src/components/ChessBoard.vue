@@ -116,9 +116,26 @@ export default {
     },
 
     move(data){
-      const { turn } = data;
-      console.log(data)
+      const { turn, point, movedPoint } = data;
+      const x1 = movedPoint.x;
+      const y1 = movedPoint.y;
+      const x0 = point.x;
+      const y0 = point.y;
+
+      console.log(this.chessArr)
+
       this.turn = turn;
+      const cell = (this.$refs[`${7 - y0}-${x0}`][0]);
+      if(cell)
+        cell.display = 'none';
+
+      // this.chessArr[7 - y1][x1] = this.chessArr[7 - y0][x0]
+      // this.chessArr[7 - y0][x0] = 0;
+      this.$set(this.chessArr[7 - y1], x1, this.chessArr[7 - y0][x0])
+      this.$set(this.chessArr[7 - y0], x0, 0)
+
+      if(cell)
+        cell.style.transform += ` translate(${(x1 - x0) * this.cellSize}px,${(y0 - y1) * this.cellSize}px)`
     }
   },
 
