@@ -1,6 +1,7 @@
 <template>
   <div id="control-bar">
       <button v-if="status === 0" @click="playWith">开始</button>
+      <span style="margin-right:10px;">您是: {{role === 1 ? '白方' : '黑方'}}</span>
       <span v-if="status !== 0">轮到<span id="who">{{who}}</span>方走</span>
       <span v-else>白棋先走</span>
   </div>
