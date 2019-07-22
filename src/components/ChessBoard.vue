@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <button @click="playWith">下棋</button>
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
         <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
@@ -15,15 +14,19 @@
     <!-- <audio autoplay>
       <source src="../assets/1.wav"/>
     </audio> -->
-    <upgrade-picker v-if="showPicker" :role="1" @change='pickerChange'></upgrade-picker>
+    <control-bar :status='status' :role="user.role" :turn='turn' @playWith='playWith'></control-bar>
+    <upgrade-picker v-if="showPicker" :role="user.role" @change='pickerChange'></upgrade-picker>
   </div>
 </template>
 
 <script>
-import logic from '../logic/index'
-import UpgradePicker from './UpgradePicker';
+
 import Vue from 'vue'
 import VueSocketIO from 'vue-socket.io'
+
+import logic from '../logic/index'
+import UpgradePicker from './UpgradePicker';
+import ControlBar from './ControlBar';
 
 Vue.use(new VueSocketIO({
   connection: 'http://localhost:3000',
@@ -31,7 +34,8 @@ Vue.use(new VueSocketIO({
 
 export default {
   components:{
-    UpgradePicker
+    UpgradePicker,
+    ControlBar
   },
   data(){
     return {
@@ -74,7 +78,7 @@ export default {
       },
       cell:null,      // 选择的棋子node
       step:0,         // 选子到落子的步数
-      turn:1,         // 1 表示 白走
+      turn:1,         // 1 表示 白走 -1 表示黑走
       showPicker:false // 兵升变弹层显示
     }
   },
@@ -86,10 +90,10 @@ export default {
     },
 
     from(data) {
-      const {userId, role} = data
+      const {userId, role, status} = data
       this.user.role = role;
       this.user.toId = userId;
-
+      this.status = status;
       if(this.user.role === -1){
         this.chessArr = [
           [11, 2, 3, 4, 5, 3, 2, 12],
@@ -129,14 +133,16 @@ export default {
       if(cell)
         cell.display = 'none';
 
-      // this.chessArr[7 - y1][x1] = this.chessArr[7 - y0][x0]
-      // this.chessArr[7 - y0][x0] = 0;
-      this.$set(this.chessArr[7 - y1], x1, this.chessArr[7 - y0][x0])
-      this.$set(this.chessArr[7 - y0], x0, 0)
-
+      
       if(cell)
         cell.style.transform += ` translate(${(x1 - x0) * this.cellSize}px,${(y0 - y1) * this.cellSize}px)`
-    }
+   
+      // this.chessArr[7 - y1][x1] = this.chessArr[7 - y0][x0]
+      // this.chessArr[7 - y0][x0] = 0;
+      // this.$set(this.chessArr[7 - y1], x1, this.chessArr[7 - y0][x0])
+      // this.$set(this.chessArr[7 - y0], x0, 0)
+
+   }
   },
 
   mounted(){
@@ -159,7 +165,7 @@ export default {
     },
 
     move(e){// 我方移动棋子
-
+      this.status = 1;
       // 这个判断在网络版再加上
       if(this.turn !== this.user.role){// 不该你走
         return;
@@ -255,19 +261,22 @@ export default {
       this.cell.style.transform += ` translate(${(ix - this.point.x) * this.cellSize}px,${(iy - this.point.y) * this.cellSize}px)`
     
       // 普通走法修改数组
-      this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
-      this.chessArr[this.point.y][this.point.x] = 0;
-
+      // this.chessArr[iy][ix] = this.chessArr[this.point.y][this.point.x];
+      // this.chessArr[this.point.y][this.point.x] = 0;
+      this.$set(this.chessArr[iy], ix, this.chessArr[this.point.y][this.point.x])
+      this.$set(this.chessArr[this.point.y], [this.point.x], 0)
       // TODO 判断胜负和
 
       // 轮谁走
+
       this.turn = -this.turn;
 
       this.$socket.emit('move',{
         toId:this.user.toId,
         point: this.point,
         movedPoint: this.movedPoint,
-        turn: this.turn
+        turn: this.turn,
+        status: this.status
       })
     }
   }
