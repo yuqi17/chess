@@ -2,7 +2,7 @@
   <div id="app">
     <div id="board"  ref='board' @click="move">
       <div class="row" v-for="(_, row) in chessArr" :key="row">
-        <div class="cell" v-for="(item, index) in chessArr[row]" :key="index">
+        <div tabindex="0" class="cell" v-for="(item, index) in chessArr[row]" :key="index">
           <div v-if="chessArr[index][row] !== 0" :ref="`${index}-${row}`" :class="[{chessman:true},chessArr[index][row] > 0 ? 'white' : 'black']">
             {{parseInt(Math.abs(chessArr[index][row]) % 100 / 10) === 6 ? chessMan[6] : parseInt(Math.abs(chessArr[index][row]) % 100 / 10) === 1 ? chessMan[1] : chessMan[Math.abs(chessArr[index][row])]}}
           </div>
